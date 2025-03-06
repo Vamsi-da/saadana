@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title> Simple Interest and Compound Interest </title>
+</head>
+<body>
+	<h1> Simple Interest and Compound Interest Topic </h1>
+	<p>Practice the below Current Affairs with practice questions</p>
+	<div style=" width:100px; height:25px; float:right"><table><tr id="interval"> time left:</tr></table></div>
+	<ol><h3>
+		<div id="quiz-container" style>
+        <!-- Questions will be added here dynamically -->
+    </div>
+	
+    <button id="submit-button">Submit</button>
+    <div id="result-container">
+        <!-- Results will be displayed here -->
+    </div>
+
+    <script>
+        // Define your questions and answers here
+        const questions = [
+            {
+                question: "A sum of ₹4,10,000 is invested at an annual interest rate of 8%. Calculate the interest earned after 3 years.",
+                options: ["98040", "50840", "94840", "98400"],
+                correctAnswer: "98400"
+            },
+            {
+                question: "If the principal amount is ₹ 820,000 and the simple interest earned is ₹ 49,200 in 4 years, what is the rate of interest?",
+                options: ["15%", "10%", "12%", "20%"],
+                correctAnswer: "15%"
+            },
+            {
+                question: "A loan of ₹82,000 is given for 2 years at a simple interest rate of 10%. What is the total repayment amount?",
+                options: ["16400", "96400", "98400", "98600"],
+                correctAnswer: "98400"
+            },
+            {
+                question: "If ₹250000 is invested at an interest rate of 6%, how long will it take to accumulate ₹ 75000 in interest?",
+                options: ["4 years", "5 years", "6 years", "8 years"],
+                correctAnswer: "5 years"
+            },
+            {
+                question: "What is the 'Rule of 72,' and how is it used in simple interest calculations?",
+                options: ["The Rule of 72 is a quick estimation tool to determine rate of Interest to be doubled", "The Rule of 72 is a quick estimation tool to determine Principle amount to be doubled", "The Rule of 72 is a quick estimation tool to determine Interest to double the amount", "The Rule of 72 is a quick estimation tool to determine Tenure to double the amount"],
+                correctAnswer: "The Rule of 72 is a quick estimation tool to determine Tenure to double the amount"
+            },
+            {
+                question: "Ram Borrowed rupees 100000 from Shyam with a rate of interest of 18% per year and after 4 months Shyam asked ram to return the rupees 50000 with interest for total amount and kept the remaining with the ram for further two years. What is the total amount repayed by Ram to shyam?",
+                options: ["118000", "68000", "124000", "74000"],
+                correctAnswer: "124000"
+            },
+            {
+                question: "Rose running money lending business and she lend rupees 2500000 money to her friend Jack at 24% rate of interest compounded every year for 3 years and lend same amount to another friend Honey  compounded annually at 8% for the three years. What is the difference between the interests paid by the two of Rose’s friends?",
+                options: ["Honey Paid rupees 1528865 more than Jack to Rose", "Jack Paid rupees 1528865 more than Honey to Rose", "Both Honey and Jack paid same interest to Rose", "Data insufficient to answer the question"],
+                correctAnswer: "Honey Paid rupees 1528865 more than Jack to Rose"
+            },
+            {
+                question: "What is the difference between the compound interest and Simple interest on some of amount with 18% rate for 5 years?",
+                options: ["18.77%", "25.77%", "38.77%", "28.77%"],
+                correctAnswer: "38.77%"
+            },
+            {
+                question: "Mary invested $7,500 at an annual interest rate of 9%. How many years will it take for her investment to grow to $10,000 in simple interest?",
+                options: ["2.7 years", "27 years", "0.27 years", "27 months"],
+                correctAnswer: "2.7 years"
+            },
+            {
+                question: "Roja and Radha invested rupees 100000 amount in the Shares with 6:4 partnership for 3 years but Roja withdraw her amount after two year and they will receive 57.6% of simple interest on their sum after completion of 3rd year What is the interest gain by Roja and Radha individually.?",
+                options: ["Date insufficient to solve the question ", "same amount of interest gained by both", "19200 and 38400", "38400 and 19200"],
+                correctAnswer: "same amount of interest gained by both"
+            }
+        ];
+
+        // Set the timer (in seconds)
+        const timerDuration = 600; // 60 seconds
+
+        // Negative marking for wrong answers
+        const negativeMarks = 1 / 3;
+
+        // Initialize variables
+        let score = 0;
+        let timer = timerDuration;
+
+        // Function to create and display questions
+        function displayQuestions() {
+            const quizContainer = document.getElementById("quiz-container");
+
+            questions.forEach((q, index) => {
+                const questionDiv = document.createElement("div");
+                questionDiv.innerHTML = `<p>${index + 1}. ${q.question}</p>`;
+
+                q.options.forEach((option, i) => {
+                    questionDiv.innerHTML += `
+                        <input type="radio" name="q${index}" value="${option}" id="q${index}o${i}">
+                        <label for="q${index}o${i}">${option}</label><br>
+                    `;
+                });
+
+                quizContainer.appendChild(questionDiv);
+            });
+        }
+
+        // Function to calculate and display results
+        function calculateResults() {
+            const resultContainer = document.getElementById("result-container");
+
+            questions.forEach((q, index) => {
+                const selectedOption = document.querySelector(`input[name="q${index}"]:checked`);
+                if (selectedOption) {
+                    if (selectedOption.value === q.correctAnswer) {
+                        score++;
+                    } else {
+                        score -= negativeMarks;
+                    }
+                }
+            });
+			
+			
+           // score = Math.max(score, 0); // Ensure the score is not negative
+             let x= resultContainer.innerHTML = `Your score: ${score.toFixed(2)}`;
+            clearInterval(interval); // Stop the timer
+
+			
+            // Redirect to a blank page after displaying the result
+            setTimeout(() => {
+				alert ("Your score is : "+x );
+                window.location.href = "SI&CIAnswersPage.html";
+            }, 1000); // Redirect after 5 seconds
+        }
+			
+        // Event listener for the Submit button
+        const submitButton = document.getElementById("submit-button");
+        submitButton.addEventListener("click", calculateResults);
+
+        // Display the questions when the page loads
+        displayQuestions();
+
+        // Timer countdown
+        const timerElement = document.createElement("p");
+        document.body.appendChild(timerElement);
+        const interval = setInterval(() => {
+            if (timer === 0) {
+                clearInterval(interval);
+                calculateResults(); // Auto-submit when the timer reaches 0
+            } else {
+                timer--;
+				const minutes = Math.floor(timer/60);
+                timerElement.innerText = `Time left: ${minutes}:${timer%60} seconds`;
+            }
+        }, 1000); // Update timer every 1 second
+		
+		</script>
+	</h3></ol>
+</body>
+</html>
