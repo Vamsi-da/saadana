@@ -2,61 +2,161 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Saadana 1.0</title>
-  <link rel="stylesheet" href="css/main_page_styles.css">
-  <script defer src="script/main_page_script.js"></script>
+  <title>HTML Generator with Sections</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      background: #f9f9f9;
+    }
+
+    input, textarea, button {
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    button {
+      background: #007BFF;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    .output-area {
+      background: #fff8e1;
+      border: 1px solid #e0d8b0;
+      padding: 15px;
+      margin-top: 20px;
+      border-radius: 8px;
+      font-family: monospace;
+      white-space: pre-wrap;
+    }
+
+    .final-output {
+      margin-top: 30px;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <div class="logo">
-      <h1>Student Study Portal</h1>
+
+  <div class="container">
+    <h2>Styled HTML Section Generator</h2>
+
+    <label for="heading">Heading (H1):</label>
+    <input type="text" id="heading" placeholder="Enter main heading...">
+
+    <label for="subheading">Subheading (H2):</label>
+    <input type="text" id="subheading" placeholder="Enter subheading...">
+
+    <label for="description">Description or Points (use * for bullet points):</label>
+    <textarea id="description" rows="6" placeholder="Example:
+This is a paragraph describing something.
+* First point
+* Second point"></textarea>
+
+    <button onclick="generateSection()">Add Section</button>
+
+    <div id="allSections"></div>
+
+    <div class="final-output">
+      <button onclick="generateFinalHTML()">Show Final Output</button>
+      <textarea id="finalOutput" rows="15" readonly placeholder="Final HTML code will appear here..."></textarea>
     </div>
-    <nav>
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Materials</a></li>
-        <li><a href="mock_exams/quantitative_aptitude/simple_and_compound_interest/exam_1/exam_1_page.html">Mock Tests</a></li>
-        <li><a href="daily_current_affairs_index.html">Current Affairs</a></li>
-	<li><a href="https://www.youtube.com/@RaviSankar-wg7vq">Video Classes</a></li>
-      </ul>
-    </nav>
-  </header>
-  
-  <main>
-    <div class="container">
+  </div>
 
-	<div class="tile" id="currentAffairsTile">
-        <h2>Current Affairs</h2>
-        <p>Stay updated with the latest news and events.</p>
-        <div id="dailyAffairs"></div>
-        <button onclick="window.location='daily_current_affairs/2025/March/01032025.html'">Read More</button>
-      </div>
+  <script>
+    let sectionCount = 0;
+    const maxSections = 50;
+    const allHTML = [];
 
-      <div class="tile" id="materialTile">
-        <h2>Competitive Exam Materials</h2>
-        <p>Find study materials, notes, and videos for various competitive exams.</p>
-        <button onclick="window.location.href='1stMarch2025.html'">Explore Materials</button>
-      </div>
+    function generateSection() {
+      if (sectionCount >= maxSections) {
+        alert("You've reached the maximum of 50 sections.");
+        return;
+      }
 
-      <div class="tile" id="mockTestTile">
-        <h2>Mock Tests</h2>
-        <p>Take practice tests to evaluate your preparation.</p>
-        <button onclick="window.location='mock_exams/quantitative_aptitude/simple_and_compound_interest/exam_1/exam_1_page.html'" target="_top">Start Mock Test</button>
-      </div>
+      const heading = document.getElementById("heading").value.trim();
+      const subheading = document.getElementById("subheading").value.trim();
+      const description = document.getElementById("description").value.trim();
 
-<!--      <div class="tile" id="paidTestTile">
-        <h2>Paid Tests</h2>
-        <p>Access premium mock tests and detailed analysis.</p>
-        <button onclick="window.location.href='#'">Explore Paid Tests</button>
-      </div>
--->
-      
-    </div>
-  </main>
+      if (!heading) {
+        alert("Heading is required.");
+        return;
+      }
 
-  <footer>
-    <p>&copy; 2025 Saadana</p>
-  </footer>
+      let sectionHTML = `<div style="background:#fff8e1; padding:15px; border-radius:8px; margin-bottom:15px;">\n`;
+
+      sectionHTML += `<h1>${heading}</h1>\n`;
+      if (subheading) sectionHTML += `<h2>${subheading}</h2>\n`;
+
+      const lines = description.split('\n');
+      let inList = false;
+
+      lines.forEach(line => {
+        line = line.trim();
+        if (line.startsWith('*')) {
+          if (!inList) {
+            sectionHTML += "<ul>\n";
+            inList = true;
+          }
+          sectionHTML += `  <li>${line.substring(1).trim()}</li>\n`;
+        } else {
+          if (inList) {
+            sectionHTML += "</ul>\n";
+            inList = false;
+          }
+          if (line) {
+            sectionHTML += `<p>${line}</p>\n`;
+          }
+        }
+      });
+
+      if (inList) sectionHTML += "</ul>\n";
+
+      sectionHTML += `</div>\n`;
+
+      allHTML.push(sectionHTML);
+      sectionCount++;
+
+      const displayDiv = document.getElementById("allSections");
+      const sectionDisplay = document.createElement("div");
+      sectionDisplay.className = "output-area";
+      sectionDisplay.innerText = sectionHTML;
+      displayDiv.appendChild(sectionDisplay);
+
+      // Clear inputs
+      document.getElementById("heading").value = "";
+      document.getElementById("subheading").value = "";
+      document.getElementById("description").value = "";
+
+      if (sectionCount === maxSections) {
+        alert("You’ve reached the 50 section limit!");
+      }
+    }
+
+    function generateFinalHTML() {
+      document.getElementById("finalOutput").value = allHTML.join("\n");
+    }
+  </script>
+
 </body>
 </html>
