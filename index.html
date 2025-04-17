@@ -108,6 +108,8 @@ This is a paragraph describing something.
       sectionHTML += `<h1>${heading}</h1>\n`;
       if (subheading) sectionHTML += `<h2>${subheading}</h2>\n`;
 
+      if (description) sectionHTML += `<h3>${descrition}</h3>\n`;
+
       const lines = description.split('\n');
       let inList = false;
 
