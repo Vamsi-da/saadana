@@ -54,10 +54,54 @@
     .final-output {
       margin-top: 30px;
     }
+
+
+    
+
+   button {
+            padding: 15px 30px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    
   </style>
 </head>
 <body>
 
+
+   button {
+            padding: 15px 30px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+
+
+    <h1>Click the Button to Navigate to Another Page</h1>
+    <button onclick="navigateToPage()">Go to New Page</button>
+
+    <script>
+        function navigateToPage() {
+            // The URL you want to navigate to
+            window.location.href = "DailyCAInputs.html"; // Replace with your desired URL
+        }
+    </script>
+
+  
   <div class="container">
     <h2>Styled HTML Section Generator</h2>
 
