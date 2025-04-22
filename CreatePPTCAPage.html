@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convert Webpage Section to PPT</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        #extract-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        #extract-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Webpage to PPT Converter</h1>
+    <p>Click the button to extract content from a division (section) with id="yyyymmdd" and convert it to a PPT slideshow.</p>
+
+    <button id="extract-btn" onclick="convertToPPT()">Convert to PPT</button>
+
+    <!-- Example Content -->
+    <div id="2025415">
+        <div class="container">
+            <h2>Slide 1 Title</h2>
+            <p>This is the content for the first slide.</p>
+        </div>
+        <div class="container">
+            <h2>Slide 2 Title</h2>
+            <p>This is the content for the second slide.</p>
+        </div>
+        <div class="container">
+            <h2>Slide 3 Title</h2>
+            <p>This is the content for the third slide.</p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pptxgenjs/3.11.0/pptxgen.min.js"></script>
+
+    <script>
+        function convertToPPT() {
+            // Get the section with the ID in 'yyyymmdd' format
+            const section = document.querySelector('#20230420'); // Example with ID '20230420'
+            if (!section) {
+                alert('Section with ID "20230420" not found.');
+                return;
+            }
+
+            // Create a new presentation
+            const pptx = new PptxGenJS();
+
+            // Get all containers within the section
+            const containers = section.querySelectorAll('.container');
+
+            containers.forEach(container => {
+                // Create a new slide
+                let slide = pptx.addSlide();
+
+                // Title and content extraction from the container
+                const title = container.querySelector('h2') ? container.querySelector('h2').innerText : 'No Title';
+                const content = container.querySelector('p') ? container.querySelector('p').innerText : 'No Content';
+
+                // Add title and content to the slide
+                slide.addText(title, {
+                    x: 0.5, y: 0.5, w: '90%', h: 1.0, fontSize: 24, bold: true
+                });
+                slide.addText(content, {
+                    x: 0.5, y: 1.5, w: '90%', h: '80%', fontSize: 18
+                });
+            });
+
+            // Save the presentation as a .pptx file
+            pptx.writeFile({ fileName: 'Webpage_Section_Slideshow.pptx' });
+        }
+    </script>
+</body>
+</html>
